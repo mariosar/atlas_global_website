@@ -1,0 +1,17 @@
+Options +FollowSymLinks -MultiViews -indexes
+RewriteEngine On
+RewriteBase /
+
+# Always use www in the domain
+RewriteEngine on
+RewriteCond %{HTTP_HOST} ^([a-z.]+)?atlasglobaladvisors\.com$ [NC]
+RewriteCond %{HTTP_HOST} !^www\. [NC]
+RewriteRule .? http://www.%1atlasglobaladvisors.com%{REQUEST_URI} [R=301,L]
+
+# browser requests PHP
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /([^\ ]+)\.php
+RewriteRule ^/?(.*)\.php$ /$1 [L,R=301]
+
+# remove .php; use THE_REQUEST to prevent infinite loops
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^\.]+)$ $1.php [NC,L]
